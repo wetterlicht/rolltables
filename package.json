@@ -2,11 +2,13 @@
   "name": "rolltable-generator",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://wetterlicht.github.io/rolltables",
   "dependencies": {
     "@react-firebase/database": "^0.3.10",
     "bootstrap": "^4.3.1",
     "file-saver": "^2.0.1",
     "firebase": "^5.9.1",
+    "gh-pages": "^2.0.1",
     "react": "^16.8.4",
     "react-bootstrap": "^1.0.0-beta.5",
     "react-dom": "^16.8.4",
@@ -18,6 +20,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
