@@ -1,0 +1,42 @@
+.top-right-button {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1rem;
+}
+
+.top-right-button button+button {
+    margin-left: 1rem;
+}
+
+.card{
+    margin-bottom: 2rem;
+}
+
+.button-row {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.table th.rolltable-header {
+    vertical-align: middle;
+}
+
+.rolltable-dice-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.rolltable-dice-formula {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.inline-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.td-entry{
+    cursor: pointer;
+}

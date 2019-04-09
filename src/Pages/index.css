@@ -1,0 +1,6 @@
+.pages-button-row {
+    margin-top: 2rem;
+}
+.pages-button-row + .pages-button-row {
+    margin-top: 0.5rem;
+}
