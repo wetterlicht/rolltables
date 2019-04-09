@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "a479efd1e73f1ea24762",
+    "revision": "4b04881063be747a4ff1",
     "url": "/rolltables/static/css/main.6e934d3f.chunk.css"
   },
   {
-    "revision": "a479efd1e73f1ea24762",
-    "url": "/rolltables/static/js/main.e71c4074.chunk.js"
+    "revision": "4b04881063be747a4ff1",
+    "url": "/rolltables/static/js/main.d1c7d343.chunk.js"
   },
   {
     "revision": "6412de08de8f6cdfb9bc",
@@ -80,7 +80,7 @@ self.__precacheManifest = [
     "url": "/rolltables/static/media/fa-solid-900.49279363.svg"
   },
   {
-    "revision": "1e51ff317bc5e4f53e6431cd8cca2cbd",
+    "revision": "ff9826f103c4cddae19362d4801d62ee",
     "url": "/rolltables/index.html"
   }
 ];
