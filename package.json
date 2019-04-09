@@ -2,7 +2,7 @@
   "name": "rolltable-generator",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://wetterlicht.github.io/rolltables",
+  "homepage": "https://wetterlicht.github.io/rolltables",
   "dependencies": {
     "@react-firebase/database": "^0.3.10",
     "bootstrap": "^4.3.1",
