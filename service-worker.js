@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/wetterlicht/rolltables/precache-manifest.92ee9d71f074827569f6831c324eabdb.js"
+  "/rolltables/precache-manifest.cdef28f9b19a3c6d8b266fab207358d3.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/wetterlicht/rolltables/index.html", {
+workbox.routing.registerNavigationRoute("/rolltables/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });
