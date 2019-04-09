@@ -40,7 +40,7 @@ export class App extends Component {
 
   render() {
     return this.state.userSet && (
-      <Router basename={process.env.PUBLIC_URL}>
+      <Router>
         <Navigation firebase={this.props.firebase} authUser={this.state.authUser} />
         <Container fluid>
           <Row>
