@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from "react";
 import { RollTable } from "./Rolltable";
-import { Result } from "./Result";
 import { rollTable } from "../Util/DiceUtil";
 import { Button, Row, Col, Card } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import { NotFoundView } from '../NotFoundView';
+import {ResultModal} from './ResultModal';
 import "./index.css"
 
 class View extends Component {
@@ -15,10 +15,12 @@ class View extends Component {
       page: null,
       result: null,
       pageRef: null,
+      showResultModal: false,
     };
 
     this.handleRoll = this.handleRoll.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
+    this.handleHideResultModal = this.handleHideResultModal.bind(this);
   }
 
   componentDidMount() {
@@ -64,10 +66,10 @@ class View extends Component {
         :
         <Fragment>
           <Row>
-            <Col>
+            <Col xs={12} sm={6}>
               <h1>{this.state.page.name}</h1>
             </Col>
-            {this.props.authUser && this.props.authUser.uid === this.state.page.author_uid && <Col>
+            {this.props.authUser && this.props.authUser.uid === this.state.page.author_uid && <Col xs={12} sm={6}>
               <div className="top-right-button">
                 <Button onClick={this.handleEdit}>Edit Page</Button>
               </div>
@@ -91,11 +93,13 @@ class View extends Component {
               })}
             </Col>
           </Row>
-          {this.state.result && <Row>
-            <Col>
-              <Result result={this.state.result} />
-            </Col>
-          </Row>}
+          {
+                    <ResultModal
+                        result={this.state.result}
+                        show={this.state.showResultModal}
+                        onHide={this.handleHideResultModal}
+                    />
+          }
         </Fragment>)
     );
   }
@@ -103,12 +107,19 @@ class View extends Component {
   handleRoll(tableId) {
     const result = rollTable(tableId, this.state.page);
     this.setState({
-      result: result
+      result: result,
+      showResultModal: true,
     });
   }
 
   handleEdit() {
     this.props.history.push("/edit/" + this.props.pageId);
+  }
+
+  handleHideResultModal(){
+    this.setState({
+      showResultModal: false,
+    })
   }
 }
 

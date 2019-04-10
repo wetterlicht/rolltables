@@ -32,7 +32,7 @@ export class RollTable extends Component {
         </div>
         <Collapse in={this.state.open}>
           <div className="table-container">
-            <Table striped bordered hover>
+            <Table responsive striped bordered hover>
               <thead>
                 <tr>
                   <th><div className="rolltable-dice-header"><span className="rolltable-dice-formula">{this.props.table.diceFormula}</span></div></th>

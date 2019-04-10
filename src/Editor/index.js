@@ -92,7 +92,7 @@ class Editor extends Component {
         :
         <Fragment>
           <Row>
-            <Col>
+            <Col xs={12} sm={6}>
               <FormGroup controlId="pageName">
                 <FormLabel>Page Name</FormLabel>
                 <FormControl
@@ -104,15 +104,21 @@ class Editor extends Component {
               </FormGroup>
 
             </Col>
-            <Col>
+            <Col xs={12} sm={6}>
               <div className="top-right-button">
+              <Row>
                 {this.state.page.author_uid &&
                   <Fragment>
-                    <Button onClick={this.handleExportPage}>Export Page</Button>
+                    <Col>
+                      <Button onClick={this.handleExportPage}>Export Page</Button>
+                    </Col>
+                    <Col>
                     <Button variant="danger" onClick={this.handleDeletePage}>Delete Page</Button>
+                    </Col>
                   </Fragment>
 
                 }
+                <Col>
                 {this.state.saving ? (
                   <Button variant="success">Saving...</Button>
                 ) : (
@@ -120,6 +126,8 @@ class Editor extends Component {
                       Save Page
                 </Button>
                   )}
+                </Col>
+              </Row>
               </div>
             </Col>
           </Row>
@@ -137,7 +145,7 @@ class Editor extends Component {
                       <TableEditor
                         table={table}
                         tables={this.state.page.tables}
-                        onSetDiceFormula={this.handleSetDiceFormula}
+                        onDiceFormulaChange={this.handleDiceFormulaChange}
                         onSaveEntry={this.handleSaveEntry}
                         onDeleteEntry={this.handleDeleteEntry}
                         onNameChange={this.handleTableNameChange}

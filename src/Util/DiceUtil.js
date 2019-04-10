@@ -1,15 +1,18 @@
+import React from 'react';
+import uuid from 'uuid';
+
 export const ROLL_MIN = "min";
 export const ROLL_MAX = "max";
 
 export const rollTable = (tableId, page) => {
   const table = getTable(tableId, page);
-    if (table) {
-      return tableValue(table);
-    }
-    return "";
+  if (table) {
+    return tableValue(table, page);
+  }
+  return [];
 }
 
-function getTable (tableId, page) {
+function getTable(tableId, page) {
   const matchingTables = page.tables.filter(
     table => table.id === tableId
   );
@@ -23,34 +26,35 @@ function getTable (tableId, page) {
   }
 }
 
-function tableValue(table) {
+function tableValue(table, page) {
   if (!table.entries) {
-    return "";
+    return [];
   }
+  const result = [];
   const rollResult = roll(table.diceFormula);
-  return table.entries
+  result.push(<div key={uuid.v4()} className="rollText">Rolled a {rollResult} on table {table.name}.</div>);
+  table.entries
     .filter(entry => parseRange(entry.range).includes(rollResult))
-    .map(entry =>
-      entryValue(entry.values).reduce(
-        (totalValue, currentValue) => totalValue + " " + currentValue, 
-        ""
-      )
-    );
+    .forEach(entry => {
+      result.push(<div key={uuid.v4()} className="labelText" >{entry.label}</div>)
+      result.push(...entryValue(entry, page))
+    });
+  return result;
 }
 
-function entryValue(values) {
-  return values.map(value => {
+function entryValue(entry, page) {
+  const result = []
+  entry.values && entry.values.forEach(value => {
     if (value.type === "text") {
-      return value.text;
+      result.push(<div key={uuid.v4()} className="valueText">{value.text}</div>);
     } else if (value.type === "roll") {
-      const table = getTable(value.targetTable);
+      const table = getTable(value.targetTable, page);
       if (table) {
-        return tableValue(table);
+        result.push(...tableValue(table, page));
       }
-      return "";
     }
-    return "";
   });
+  return result;
 }
 
 function roll(input, mode) {
@@ -100,11 +104,11 @@ function parseRange(input) {
     if (values.length === 1) {
       result.push(parseInt(values[0]));
     } else {
-        const min = parseInt(values[0]);
-        const max = parseInt(values[1]);
-        for (let i = min; i <= max; i++) {
-          result.push(i);
-        }
+      const min = parseInt(values[0]);
+      const max = parseInt(values[1]);
+      for (let i = min; i <= max; i++) {
+        result.push(i);
+      }
     }
   });
   return result;

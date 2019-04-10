@@ -13,7 +13,7 @@ const config = {
 };
 
 const uiConfig = ({
-  signInSuccessUrl: '/#/pages',
+  signInSuccessUrl: '/rolltables/#/pages',
   signInOptions: [
     firebase.auth.FacebookAuthProvider.PROVIDER_ID,
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,

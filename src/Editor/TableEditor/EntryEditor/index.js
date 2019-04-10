@@ -16,7 +16,7 @@ export class EntryEditor extends Component {
                     <Form.Control type="text" value={this.props.label} onChange={this.props.onLabelChange} />
                 </Form.Group>
                 <hr />
-                {this.props.values.map(value =>
+                {this.props.values && this.props.values.map(value =>
                     <Fragment key={value.id}>
                         <fieldset >
                                 <legend className="d-flex justify-content-between">

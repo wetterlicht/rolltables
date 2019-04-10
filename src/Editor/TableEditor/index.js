@@ -22,7 +22,7 @@ export class TableEditor extends Component {
         this.handleToggle = this.handleToggle.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleHeaderChange = this.handleHeaderChange.bind(this);
-        this.handleSetDiceFormula = this.handleSetDiceFormula.bind(this);
+        this.handleDiceFormulaChange = this.handleDiceFormulaChange.bind(this);
         this.handleEntryModalShow = this.handleEntryModalShow.bind(this);
         this.handleEntryModalClose = this.handleEntryModalClose.bind(this);
         this.handleEntryClick = this.handleEntryClick.bind(this);
@@ -63,7 +63,7 @@ export class TableEditor extends Component {
                                 onChange={this.handleNameChange}
                             />
                         </Form.Group>
-                        <Table striped bordered hover>
+                        <Table responsive striped bordered hover>
                             <thead>
                                 <tr>
                                     <th>
@@ -71,7 +71,7 @@ export class TableEditor extends Component {
                                             <Form.Control
                                                 type="text"
                                                 value={this.props.table.diceFormula}
-                                                onChange={this.handleSetDiceFormula}
+                                                onChange={this.handleDiceFormulaChange}
                                             />
                                         </Form.Group>
                                     </th>
@@ -140,8 +140,8 @@ export class TableEditor extends Component {
         this.props.onHeaderChange(this.props.table.id, e.target.value);
     }
 
-    handleSetDiceFormula(e) {
-        this.props.onSetDiceFormula(this.props.table.id, e.target.value);
+    handleDiceFormulaChange(e) {
+        this.props.onDiceFormulaChange(this.props.table.id, e.target.value);
     }
 
     handleEntryModalShow() {
