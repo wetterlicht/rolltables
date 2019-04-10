@@ -1,16 +1,16 @@
 {
-  "main.css": "/rolltables/static/css/main.bfd842dc.chunk.css",
-  "main.js": "/rolltables/static/js/main.363bdaf9.chunk.js",
-  "main.js.map": "/rolltables/static/js/main.363bdaf9.chunk.js.map",
+  "main.css": "/rolltables/static/css/main.70018aef.chunk.css",
+  "main.js": "/rolltables/static/js/main.31f55092.chunk.js",
+  "main.js.map": "/rolltables/static/js/main.31f55092.chunk.js.map",
   "runtime~main.js": "/rolltables/static/js/runtime~main.23b822ec.js",
   "runtime~main.js.map": "/rolltables/static/js/runtime~main.23b822ec.js.map",
   "static/css/2.fcbdc44d.chunk.css": "/rolltables/static/css/2.fcbdc44d.chunk.css",
-  "static/js/2.cefa12b8.chunk.js": "/rolltables/static/js/2.cefa12b8.chunk.js",
-  "static/js/2.cefa12b8.chunk.js.map": "/rolltables/static/js/2.cefa12b8.chunk.js.map",
+  "static/js/2.2ddf16ec.chunk.js": "/rolltables/static/js/2.2ddf16ec.chunk.js",
+  "static/js/2.2ddf16ec.chunk.js.map": "/rolltables/static/js/2.2ddf16ec.chunk.js.map",
   "index.html": "/rolltables/index.html",
-  "precache-manifest.0ce42905a09f5ec67f9e16a2639bfc84.js": "/rolltables/precache-manifest.0ce42905a09f5ec67f9e16a2639bfc84.js",
+  "precache-manifest.3285c0910bed4d89445a62dc592f57bd.js": "/rolltables/precache-manifest.3285c0910bed4d89445a62dc592f57bd.js",
   "service-worker.js": "/rolltables/service-worker.js",
   "static/css/2.fcbdc44d.chunk.css.map": "/rolltables/static/css/2.fcbdc44d.chunk.css.map",
-  "static/css/main.bfd842dc.chunk.css.map": "/rolltables/static/css/main.bfd842dc.chunk.css.map",
+  "static/css/main.70018aef.chunk.css.map": "/rolltables/static/css/main.70018aef.chunk.css.map",
   "static/media/all.css": "/rolltables/static/media/fa-solid-900.ff8d9f8a.ttf"
 }
