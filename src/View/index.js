@@ -14,7 +14,6 @@ class View extends Component {
       isLoading: true,
       page: null,
       result: null,
-      pageRef: null,
       showResultModal: false,
     };
 
@@ -25,19 +24,14 @@ class View extends Component {
 
   componentDidMount() {
     if (this.props.pageId) {
-      const pageRef = this.props
-        .firebase
-        .db
-        .ref("pages")
-        .child(this.props.pageId);
-      this.setState({
-        pageRef
-      });
-      pageRef.on("value", snapshot => {
-        if (snapshot.exists()) {
+      this.unsubscribe = this.props.firebase.db
+      .collection("pages")
+      .doc(this.props.pageId)
+      .onSnapshot(doc => {
+        if (doc.exists) {
           this.setState({
             isLoading: false,
-            page: snapshot.val(),
+            page: doc.data(),
           });
         } else {
           this.setState({
@@ -53,9 +47,7 @@ class View extends Component {
   }
 
   componentWillUnmount() {
-    if (this.state.pageRef) {
-      this.state.pageRef.off("value");
-    }
+    this.unsubscribe();
   }
 
   render() {

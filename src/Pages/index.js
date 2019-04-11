@@ -9,7 +9,6 @@ class Pages extends Component {
 
         this.state = {
             pages: null,
-            userPagesRef: null,
         }
 
         this.handleCreatePage = this.handleCreatePage.bind(this);
@@ -67,27 +66,24 @@ class Pages extends Component {
 
     componentDidMount() {
         if (this.props.authUser) {
-            const userPagesRef = this.props.firebase.db.ref("pages").orderByChild("author_uid").equalTo(this.props.authUser.uid);
-            this.setState({
-                userPagesRef
-            })
-            userPagesRef.on("value", snapshot => {
-                const pages = [];
-                snapshot.forEach(data => {
-                    pages.push({ ...data.val(), id: data.key });
+            this.unsubscribe = this.props.firebase.db
+                .collection("pages")
+                .where("author_uid", "==", this.props.authUser.uid)
+                .onSnapshot(snapshot => {
+                    const pages = [];
+                    snapshot.forEach(data => {
+                        pages.push({ ...data.data(), id: data.id });
+                    });
+                    pages.sort((a, b) => a.created_at < b.created_at ? 1 : -1);
+                    this.setState({
+                        pages
+                    });
                 });
-                pages.sort((a,b) =>  a.created_at < b.created_at ? 1:-1);
-                this.setState({
-                    pages
-                });
-            });
         }
     }
 
     componentWillUnmount() {
-        if (this.state.userPagesRef) {
-            this.state.userPagesRef.off("value");
-        }
+        this.unsubscribe();
     }
 
     handleCreatePage() {
@@ -96,7 +92,7 @@ class Pages extends Component {
 
     handleImportPage(e) {
         const fileList = e.target.files;
-        if(fileList.length > 0){
+        if (fileList.length > 0) {
             const file = fileList[0];
             var reader = new FileReader();
             reader.readAsText(file);

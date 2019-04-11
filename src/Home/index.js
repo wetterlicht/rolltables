@@ -8,19 +8,19 @@ export class Home extends Component {
 
         this.state = {
             pages: null,
-            newPagesRef: null,
         }
     }
 
     componentDidMount() {
-            const newPagesRef = this.props.firebase.db.ref("pages").orderByChild("creation_date").limitToLast(5);
-            this.setState({
-                newPagesRef
-            })
-            newPagesRef.on("value", snapshot => {
+            this.unsubscribe = this.props.firebase.db
+            .collection("pages")
+            .where("isPrivate", "==", false)
+            .orderBy("created_at", "desc")
+            .limit(5)
+            .onSnapshot(snapshot => {
                 const pages = [];
                 snapshot.forEach(data => {
-                    pages.push({ ...data.val(), id: data.key });
+                    pages.push({ ...data.data(), id: data.id });
                 });
                 pages.reverse();
                 this.setState({
@@ -30,9 +30,7 @@ export class Home extends Component {
     }
 
     componentWillUnmount() {
-        if (this.state.newPagesRef) {
-            this.state.newPagesRef.off("value");
-        }
+        this.unsubscribe();
     }
 
     render() {
@@ -41,17 +39,17 @@ export class Home extends Component {
                 <h1>Welcome!</h1>
                 {!this.props.authUser ?
                     <p>
-                        Check out the latest tables below or <Link to="/login">login</Link> to start creating your own!
+                        Check out the latest pages below or <Link to="/login">login</Link> to start creating your own!
                     </p>
                     :
                     <p>
-                        Check out the latest tables below or start <Link to="/pages">creating your own!</Link>
+                        Check out the latest pages below or start <Link to="/pages">creating your own!</Link>
                     </p>
                 }
                 {this.state.pages && 
                     <Row className="center">
                     <Col sm={{ span: 6, offset: 3 }} md={{ span: 4, offset: 4 }}>
-                        <h1>Latest Pages</h1>
+                        <h2>Latest Pages</h2>
                         <div className="list-group">
                             {this.state.pages.map(page => {
                                 return (

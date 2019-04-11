@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Button, Card, Row, Col, FormGroup, FormControl, FormLabel } from "react-bootstrap";
+import { Button, Card, Row, Col, Form, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import { TableEditor } from "./TableEditor";
 import "./index.css";
 import uuid from "uuid";
@@ -10,6 +10,7 @@ import FileSaver from 'file-saver';
 const EMPTY_PAGE = {
   name: "New Page",
   tables: [],
+  isPrivate: false,
 };
 
 class Editor extends Component {
@@ -20,7 +21,6 @@ class Editor extends Component {
       isLoading: true,
       page: null,
       saving: false,
-      pageRef: null,
     };
 
     this.handlePageNameChange = this.handlePageNameChange.bind(this);
@@ -35,24 +35,22 @@ class Editor extends Component {
     this.handleExportPage = this.handleExportPage.bind(this);
     this.handleSavePage = this.handleSavePage.bind(this);
     this.handleDeletePage = this.handleDeletePage.bind(this);
+    this.handleIsPrivateChange = this.handleIsPrivateChange.bind(this);
   }
 
   componentDidMount() {
     if (this.props.pageId) {
-      const pageRef = this.props
+      this.unsubscribe = this.props
         .firebase
         .db
-        .ref("pages")
-        .child(this.props.pageId);
-      this.setState({
-        pageRef
-      });
-      pageRef.on("value", snapshot => {
-        if (snapshot.exists()) {
-          if (snapshot.val().author_uid === this.props.authUser.uid) {
+        .collection("pages")
+        .doc(this.props.pageId)
+        .onSnapshot(doc => {
+        if (doc.exists) {
+          if (doc.data().author_uid === this.props.authUser.uid) {
             this.setState({
               isLoading: false,
-              page: snapshot.val(),
+              page: doc.data(),
             });
           } else {
             this.setState({
@@ -79,9 +77,7 @@ class Editor extends Component {
   }
 
   componentWillUnmount() {
-    if (this.state.pageRef) {
-      this.state.pageRef.off("value");
-    }
+    this.unsubscribe();
   }
 
   render() {
@@ -102,32 +98,41 @@ class Editor extends Component {
                 >
                 </FormControl>
               </FormGroup>
-
+              <FormGroup controlId="pageName">
+                <FormLabel>Visibility: </FormLabel>
+                <Form.Check
+                  type="checkbox"
+                  id="private"
+                  label="Private"
+                  checked={this.state.page.isPrivate}
+                  onChange={this.handleIsPrivateChange}
+                />
+              </FormGroup>
             </Col>
             <Col xs={12} sm={6}>
               <div className="top-right-button">
-              <Row>
-                {this.state.page.author_uid &&
-                  <Fragment>
-                    <Col>
-                      <Button onClick={this.handleExportPage}>Export Page</Button>
-                    </Col>
-                    <Col>
-                    <Button variant="danger" onClick={this.handleDeletePage}>Delete Page</Button>
-                    </Col>
-                  </Fragment>
+                <Row>
+                  {this.state.page.author_uid &&
+                    <Fragment>
+                      <Col>
+                        <Button onClick={this.handleExportPage}>Export Page</Button>
+                      </Col>
+                      <Col>
+                        <Button variant="danger" onClick={this.handleDeletePage}>Delete Page</Button>
+                      </Col>
+                    </Fragment>
 
-                }
-                <Col>
-                {this.state.saving ? (
-                  <Button variant="success">Saving...</Button>
-                ) : (
-                    <Button onClick={this.handleSavePage} variant="success">
-                      Save Page
+                  }
+                  <Col>
+                    {this.state.saving ? (
+                      <Button variant="success">Saving...</Button>
+                    ) : (
+                        <Button onClick={this.handleSavePage} variant="success">
+                          Save Page
                 </Button>
-                  )}
-                </Col>
-              </Row>
+                      )}
+                  </Col>
+                </Row>
               </div>
             </Col>
           </Row>
@@ -301,34 +306,44 @@ class Editor extends Component {
   }
 
   handleSavePage() {
-    const pagesRef = this.props.firebase.db.ref("pages");
+    const pagesRef = this.props.firebase.db.collection("pages");
     let page;
     if (this.props.pageId) {
-      page = pagesRef.child(this.props.pageId)
+      page = pagesRef.doc(this.props.pageId)
     } else {
-      page = pagesRef.push();
+      page = pagesRef.doc();
     }
-    page.set({ ...this.state.page, author_uid: this.props.authUser.uid, created_at: this.props.firebase.serverTimestamp }, error => {
+    page.set({ ...this.state.page, author_uid: this.props.authUser.uid, created_at: this.props.firebase.serverTimestamp() }, error => {
       if (error) {
         console.log(error);
       }
     })
       .then(() => {
-        this.props.history.push("/view/" + page.key);
+        this.props.history.push("/view/" + page.id);
       });
   }
 
   handleDeletePage() {
     const confirm = window.confirm("Do you really want to delete this page?");
     if (confirm) {
-      const pagesRef = this.props.firebase.db.ref("pages");
-      let page;
-      page = pagesRef.child(this.props.pageId)
-      page.remove()
+      this.props.firebase.db
+        .collection("pages")
+        .doc(this.props.pageId)
+        .delete()
         .then(() => {
           this.props.history.push("/pages");
         });
     }
+  }
+
+  handleIsPrivateChange(e) {
+    const isPrivate = e.target.checked;
+    this.setState({
+      page: {
+        ...this.state.page,
+       isPrivate
+      }
+    })
   }
 }
 

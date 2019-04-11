@@ -26,8 +26,8 @@ class Firebase {
   constructor() {
     firebase.initializeApp(config);
     this.auth = firebase.auth();
-    this.db = firebase.database();
-    this.serverTimestamp = firebase.database.ServerValue.TIMESTAMP;
+    this.db = firebase.firestore();
+    this.serverTimestamp = firebase.firestore.FieldValue.serverTimestamp;
   }
 
   // *** Auth API ***
